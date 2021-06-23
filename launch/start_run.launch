@@ -1,0 +1,77 @@
+<launch>
+  <arg name="log_data" default="false"/>
+  <arg name="log_folder" default="/home/mikolaj/Desktop/test_before_sprint" />
+  <arg name="log_filename" default="normal_speed_test" />
+
+  <arg name="rosbag_play_rate" default="1.0" />
+
+  <arg name="camera_frame_name" value="broadrreachcam_rear" /> <!-- svo: cam_pos, fu: broadrreachcam_rear, vins: camera -->
+  <!-- Relay the CameraInfo topic also to the feature tracker image -->
+  <node name="camera_info_relay" pkg="topic_tools" type="relay" args="/sensors/broadrreachcam_rear/camera_info /feature_tracker/camera_info" />
+  
+  <!-- Publish the CameraInfo topic-->
+  <node name="camera_info_publisher" type="publisher.py" pkg="camera_info_publisher">
+      <remap from="/camera_info" to="/sensors/broadrreachcam_rear/camera_info" />
+      <param name="camera_frame" value="$(arg camera_frame_name)" />
+      <param name="camera_info_file" value="$(find odom_publisher)/../../config/camera_calibration/iavcam_rear_calibration.yaml" />
+  </node>
+
+  <!-- Decompress the image topic -->
+  <node name="image_decompresser" type="republish" pkg="image_transport" output="screen"
+        args="compressed in:=/sensors/broadrreachcam_rear/image_compressed raw out:=/change_image_frame_id/image" />
+
+  <!-- Publish a new topic with added gravity vector on IMU data -->
+  <node pkg="imu_add_gravity" type="publisher.py" name="add_gravity" >
+      <remap from="/in" to="/sensors/applanix/imu_data" />
+      <remap from="/out" to="/sensors/applanix/imu_data_gravity" />
+  </node>
+
+  <!-- Modify frame_id of the decompressed camera image to faclitate visualization-->
+  <node pkg="topic_tools" type="transform" name="change_image_frame_id"
+        args="/change_image_frame_id/image /sensors/broadrreachcam_rear/image sensor_msgs/Image 'sensor_msgs.msg.Image(header=std_msgs.msg.Header(seq=m.header.seq,stamp=m.header.stamp,frame_id=&quot;$(arg camera_frame_name)&quot;),height=m.height,width=m.width,encoding=m.encoding,is_bigendian=m.is_bigendian,step=m.step,data=m.data)' --import sensor_msgs std_msgs" />
+
+  <!-- Visualize the ground truth GPS trajectory -->
+  <node name="gps_odom_trajectory_publisher" type="publisher.py" pkg="odom_path_publisher">
+      <remap from="/odom" to="/sensors/applanix/gps_odom" />
+      <remap from="/ground_truth_path" to="/ground_truth_gps_odom_path" />
+      <param name="r" value="1.0" />
+      <param name="g" value="1.0" />
+      <param name="b" value="0.0" />
+  </node>
+
+  <!-- Launch rviz and tf frames -->
+  <arg name="rvizconfig" default="$(find odom_publisher)/../../rviz/test_car.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+  <arg name="model" default="$(find odom_publisher)/../../urdf/mig.urdf"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- Animate the model in rviz. /odom needs to be remapped to the right one (ground truth or the estimate) -->
+  <node name="odom_publisher" type="publisher.py" pkg="odom_publisher">
+      <remap from="/odom" to="/vins_estimator/odometry" /> <!-- /sensors/applanix/gps_odom /vins_estimator/odometry -->
+  </node>
+
+  <!-- Log to csv -->
+  <group if="$(eval arg('log_data'))">
+    <node name="features_logger" type="evaluator.py" pkg="feature_tracker_evaluation">
+        <remap from="/feature_cloud" to="/feature_tracker/feature" />
+        <param name="log_filename" value="$(arg log_folder)/features_$(arg log_filename).csv" />
+    </node>
+    <node name="vins_odom_logger" type="odom_logger.py" pkg="logging">
+        <remap from="/odom" to="/vins_estimator/odometry" />
+        <param name="log_filename" value="$(arg log_folder)/vins_odom_$(arg log_filename).csv" />
+        <param name="transform_vel_to_odom" value="true" />
+    </node>
+    <node name="vins_bias_logger" type="bias_logger.py" pkg="logging">
+        <remap from="/bias" to="/vins_estimator/estimated_bias" />
+        <param name="log_filename" value="$(arg log_folder)/vins_bias_$(arg log_filename).csv" />
+    </node>
+  </group>
+
+  <!-- Play the bag -->
+  <node pkg="rosbag" type="play" name="player" output="screen"
+        args="$(find odom_publisher)/../../bags/fu_berlin.bag /tf:=/tf_dev_null -r $(arg rosbag_play_rate) -q" />
+</launch>
