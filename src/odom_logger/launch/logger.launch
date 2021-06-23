@@ -1,6 +1,6 @@
 <launch>
   <node name="gps_odom_logger" type="logger.py" pkg="odom_logger">
-      <remap from="/odom" to="/sensors/applanix/gps_odom" />
-      <param name="log_filename" value="/home/mikolaj/Desktop/test_log.csv" />
+      <remap from="/odom" to="/sensors/applanix/gps_odom" /> <!-- /vins_estimator/odometry -->
+      <param name="log_filename" value="/home/mikolaj/Desktop/gps_odom_with_twist_test.csv" />
   </node>
 </launch>
