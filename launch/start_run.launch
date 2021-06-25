@@ -1,6 +1,6 @@
 <launch>
   <arg name="log_data" default="false"/>
-  <arg name="log_folder" default="/home/mikolaj/Desktop/test_before_sprint" />
+  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/tune_feature_tracker_2" />
   <arg name="log_filename" default="normal_speed_test" />
 
   <arg name="rosbag_play_rate" default="1.0" />
@@ -60,12 +60,12 @@
         <remap from="/feature_cloud" to="/feature_tracker/feature" />
         <param name="log_filename" value="$(arg log_folder)/features_$(arg log_filename).csv" />
     </node>
-    <node name="vins_odom_logger" type="odom_logger.py" pkg="logging">
+    <node name="vins_odom_logger" type="odom_logger.py" pkg="data_logging">
         <remap from="/odom" to="/vins_estimator/odometry" />
         <param name="log_filename" value="$(arg log_folder)/vins_odom_$(arg log_filename).csv" />
         <param name="transform_vel_to_odom" value="true" />
     </node>
-    <node name="vins_bias_logger" type="bias_logger.py" pkg="logging">
+    <node name="vins_bias_logger" type="bias_logger.py" pkg="data_logging">
         <remap from="/bias" to="/vins_estimator/estimated_bias" />
         <param name="log_filename" value="$(arg log_folder)/vins_bias_$(arg log_filename).csv" />
     </node>
@@ -73,5 +73,5 @@
 
   <!-- Play the bag -->
   <node pkg="rosbag" type="play" name="player" output="screen"
-        args="$(find odom_publisher)/../../bags/fu_berlin.bag /tf:=/tf_dev_null -r $(arg rosbag_play_rate) -q" />
+        args="$(find odom_publisher)/../../bags/fu_berlin.bag /tf:=/tf_dev_null -r $(arg rosbag_play_rate) --clock" />
 </launch>

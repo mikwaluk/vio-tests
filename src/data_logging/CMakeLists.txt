@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(logging)
+project(data_logging)
 
 
 find_package(catkin REQUIRED COMPONENTS rospy std_msgs)
@@ -10,5 +10,5 @@ catkin_package(
 )
 
 include_directories(include ${catkin_INCLUDE_DIRS})
-
-catkin_install_python(PROGRAMS src/odom_logger.py src/bias_logger.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+catkin_python_setup()
+catkin_install_python(PROGRAMS src/data_logging/odom_logger.py src/data_logging/bias_logger.py src/data_logging/imu_logger.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

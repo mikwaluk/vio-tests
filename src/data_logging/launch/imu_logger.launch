@@ -1,0 +1,10 @@
+<launch>
+  <node name="imu_logger" type="imu_logger.py" pkg="data_logging">
+      <remap from="/imu" to="/sensors/applanix/imu_data" />
+      <param name="log_filename" value="/home/mikolaj/Desktop/imu_no_gravity.csv" />
+  </node>
+  <node name="imu_gravity_logger" type="imu_logger.py" pkg="data_logging">
+      <remap from="/imu" to="/sensors/applanix/imu_data_gravity" />
+      <param name="log_filename" value="/home/mikolaj/Desktop/imu_gravity.csv" />
+  </node>
+</launch>

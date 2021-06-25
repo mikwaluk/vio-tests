@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>logging</name>
+  <name>data_logging</name>
   <version>0.0.0</version>
   <description>Log data to csv</description>
   <author>Mikolaj Walukiewicz</author>
