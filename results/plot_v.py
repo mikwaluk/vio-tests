@@ -8,7 +8,29 @@ sns.set_style('whitegrid')
 plt.rcParams["figure.figsize"] = (15, 13)
 point_size = 0.1
 
-ground_truth = pd.read_csv('../twist_gps_odom.csv')
+imu_no_gravity = pd.read_csv('../imu_no_gravity.csv')
+imu_gravity = pd.read_csv('../imu_gravity.csv')
+
+update_val = 1.5605008e9
+start_val = 58 + update_val
+end_val = 61.5 + update_val
+
+#imu_no_gravity = imu_no_gravity[imu_no_gravity['timestamp'].le(end_val)]
+#imu_no_gravity = imu_no_gravity[imu_no_gravity['timestamp'].ge(start_val)]
+
+#imu_gravity = imu_gravity[imu_gravity['timestamp'].le(end_val)]
+#imu_gravity = imu_gravity[imu_gravity['timestamp'].ge(start_val)]
+
+var_x = imu_no_gravity.angular_velocity_x.var(ddof=0)
+var_y = imu_no_gravity.angular_velocity_y.var(ddof=0)
+var_z = imu_no_gravity.angular_velocity_z.var(ddof=0)
+print(f'{var_x=}, {var_y=}, {var_z=}')
+std_x = imu_no_gravity.angular_velocity_x.std(ddof=0)
+std_y = imu_no_gravity.angular_velocity_y.std(ddof=0)
+std_z = imu_no_gravity.angular_velocity_z.std(ddof=0)
+print(f'{std_x=}, {std_y=}, {std_z=}')
+
+ground_truth = pd.read_csv('../ground_truth_gps.csv')
 odometry = pd.read_csv('vins_odom_normal_speed_test.csv')
 features = pd.read_csv('features_normal_speed_test.csv')
 bias = pd.read_csv('vins_bias_normal_speed_test.csv')
@@ -23,7 +45,7 @@ if not entire_trajectory:
 ground_truth['timestamp'] = ground_truth['timestamp'].astype(float)
 odometry['timestamp'] = odometry['timestamp'].astype(float)
 
-save_all = True
+save_all = False
 features_z_position_x_velocity = False
 show_bias = False
 xy_trajectory_from_above = False
@@ -31,7 +53,8 @@ compare_z = False
 compare_velocities = False
 compare_positions = False
 z_vel_z_pos = False
-rpy = True
+rpy = False
+plot_imu = True
 
 if rpy or save_all:
     fig, ax = plt.subplots()
@@ -212,4 +235,60 @@ if compare_positions or save_all:
     axes[2].set_ylabel('s [m]')
     fig.savefig('position_comparison.svg', format='svg', dpi=600)
     # plt.show()
+    plt.clf()
+
+if plot_imu:
+    #imu_no_gravity = pd.read_csv('../imu_no_gravity.csv')
+    fig, ax = plt.subplots(nrows=2)
+    ax[0].scatter(imu_no_gravity['timestamp'],
+                  imu_no_gravity['linear_acceleration_x'], label='lin acc x', linestyle='--', s=point_size, rasterized=True)
+    ax[0].scatter(imu_no_gravity['timestamp'],
+                  imu_no_gravity['linear_acceleration_y'], label='lin acc y', linestyle='--', s=point_size, rasterized=True)
+    ax[0].scatter(imu_no_gravity['timestamp'],
+                  imu_no_gravity['linear_acceleration_z'], label='lin acc z', linestyle='--', s=point_size, rasterized=True)
+    ax[0].legend()
+    ax[0].set_title('Linear accelerations without gravity')
+    ax[0].set_xlabel('t [s]')
+    ax[0].set_ylabel('m/s^2')
+
+    #imu_gravity = pd.read_csv('../imu_gravity.csv')
+    ax[1].scatter(imu_gravity['timestamp'],
+                  imu_gravity['linear_acceleration_x'], label='lin acc x', linestyle='--', s=point_size, rasterized=True)
+    ax[1].scatter(imu_gravity['timestamp'],
+                  imu_gravity['linear_acceleration_y'], label='lin acc y', linestyle='--', s=point_size, rasterized=True)
+    ax[1].scatter(imu_gravity['timestamp'],
+                  imu_gravity['linear_acceleration_z'], label='lin acc z', linestyle='--', s=point_size, rasterized=True)
+    ax[1].legend()
+    ax[1].set_title('Linear accelerations with gravity')
+    ax[1].set_xlabel('t [s]')
+    ax[1].set_ylabel('m/s^2')
+    fig.savefig('linear_accelerations_comparison.svg', format='svg', dpi=600)
+    plt.show()
+    plt.clf()
+
+    fig, ax = plt.subplots(nrows=2)
+    ax[0].scatter(imu_no_gravity['timestamp'],
+                  imu_no_gravity['angular_velocity_x'], label='ang vel x', linestyle='--', s=point_size, rasterized=True)
+    ax[0].scatter(imu_no_gravity['timestamp'],
+                  imu_no_gravity['angular_velocity_y'], label='ang vel y', linestyle='--', s=point_size, rasterized=True)
+    ax[0].scatter(imu_no_gravity['timestamp'],
+                  imu_no_gravity['angular_velocity_z'], label='ang vel z', linestyle='--', s=point_size, rasterized=True)
+    ax[0].legend()
+    ax[0].set_title('Angular velocities without gravity')
+    ax[0].set_xlabel('t [s]')
+    ax[0].set_ylabel('rad/s')
+
+    #imu_gravity = pd.read_csv('../imu_gravity.csv')
+    ax[1].scatter(imu_gravity['timestamp'],
+                  imu_gravity['angular_velocity_x'], label='ang vel x', linestyle='--', s=point_size, rasterized=True)
+    ax[1].scatter(imu_gravity['timestamp'],
+                  imu_gravity['angular_velocity_y'], label='ang vel y', linestyle='--', s=point_size, rasterized=True)
+    ax[1].scatter(imu_gravity['timestamp'],
+                  imu_gravity['angular_velocity_z'], label='ang vel z', linestyle='--', s=point_size, rasterized=True)
+    ax[1].legend()
+    ax[1].set_title('angular velocities with gravity')
+    ax[1].set_xlabel('t [s]')
+    ax[1].set_ylabel('rad/s')
+    fig.savefig('angular_velocity_comparison.svg', format='svg', dpi=600)
+    plt.show()
     plt.clf()
