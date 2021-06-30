@@ -1,0 +1,54 @@
+<launch>
+  <arg name="log_data" default="false"/>
+  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/hkust_small_rc_car/test_run_3" />
+  <arg name="log_filename" default="" />
+
+  <arg name="rosbag_play_rate" default="1.0" />
+
+  <arg name="camera_frame_name" value="cam0" /> <!-- svo: cam_pos, fu: broadrreachcam_rear, vins: camera -->
+  <!-- Relay the CameraInfo topic also to the feature tracker image -->
+  <node name="camera_info_relay" pkg="topic_tools" type="relay" args="/cam0/camera_info /feature_tracker/camera_info" />
+  
+  <!-- Publish the CameraInfo topic-->
+  <node name="camera_info_publisher" type="publisher.py" pkg="camera_info_publisher">
+      <remap from="/camera_info" to="/cam0/camera_info" />
+      <param name="camera_frame" value="$(arg camera_frame_name)" />
+      <param name="camera_info_file" value="$(find odom_publisher)/../../config/camera_calibration/iavcam_rear_calibration.yaml" />
+  </node>
+
+  <!-- Launch rviz and tf frames -->
+  <arg name="rvizconfig" default="$(find odom_publisher)/../../rviz/hkust_vi_car.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+  <arg name="model" default="$(find odom_publisher)/../../urdf/hkust_vi_car.urdf"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- Animate the model in rviz. /odom needs to be remapped to the right one (ground truth or the estimate) -->
+  <node name="odom_publisher" type="publisher.py" pkg="odom_publisher">
+      <remap from="/odom" to="/vins_estimator/odometry" /> <!-- /sensors/applanix/gps_odom /vins_estimator/odometry -->
+  </node>
+
+  <!-- Log to csv -->
+  <group if="$(eval arg('log_data'))">
+    <node name="vins_features_logger" type="tracked_features_logger.py" pkg="data_logging">
+        <remap from="/tracked_features" to="/vins_estimator/tracked_features" />
+        <param name="log_filename" value="$(arg log_folder)/features_$(arg log_filename).csv" />
+    </node>
+    <node name="vins_odom_logger" type="odom_logger.py" pkg="data_logging">
+        <remap from="/odom" to="/vins_estimator/odometry" />
+        <param name="log_filename" value="$(arg log_folder)/vins_odom_$(arg log_filename).csv" />
+        <param name="transform_vel_to_odom" value="true" />
+    </node>
+    <node name="vins_bias_logger" type="bias_logger.py" pkg="data_logging">
+        <remap from="/bias" to="/vins_estimator/estimated_bias" />
+        <param name="log_filename" value="$(arg log_folder)/vins_bias_$(arg log_filename).csv" />
+    </node>
+  </group>
+
+  <!-- Play the bag -->
+  <node pkg="rosbag" type="play" name="player" output="screen"
+        args="/home/mikolaj/Downloads/car.bag -r $(arg rosbag_play_rate) --clock -q" />
+</launch>

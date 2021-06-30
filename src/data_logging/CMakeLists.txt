@@ -11,4 +11,4 @@ catkin_package(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 catkin_python_setup()
-catkin_install_python(PROGRAMS src/data_logging/odom_logger.py src/data_logging/bias_logger.py src/data_logging/imu_logger.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+catkin_install_python(PROGRAMS src/data_logging/odom_logger.py src/data_logging/bias_logger.py src/data_logging/imu_logger.py src/data_logging/tracked_features_logger.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

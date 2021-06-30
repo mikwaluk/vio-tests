@@ -1,0 +1,6 @@
+<launch>
+  <arg name="camera_frame_name" value="camera" /> <!-- svo: cam_pos, fu: broadrreachcam_rear, vins: camera -->
+
+  <node name="decompress_image" type="republish" pkg="image_transport" output="screen"
+        args="compressed in:=/phone1/camera/image raw out:=/image" />
+</launch>

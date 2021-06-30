@@ -1,0 +1,29 @@
+<launch>
+  <arg name="model" default="$(find odom_publisher)/../../urdf/hkust_vi_car.urdf"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+ <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/hkust_small_rc_car" />
+  <arg name="log_filename" default="pseudo_ground_truth" />
+<node name="features_logger" type="evaluator.py" pkg="feature_tracker_evaluation">
+    <remap from="/feature_cloud" to="/feature_tracker/feature" />
+    <param name="log_filename" value="$(arg log_folder)/features_$(arg log_filename).csv" />
+</node>
+<node name="vins_odom_logger" type="odom_logger.py" pkg="data_logging">
+    <remap from="/odom" to="/vins_estimator/odometry" />
+    <param name="log_filename" value="$(arg log_folder)/vins_odom_$(arg log_filename).csv" />
+    <param name="transform_vel_to_odom" value="true" />
+</node>
+<node name="vins_bias_logger" type="bias_logger.py" pkg="data_logging">
+    <remap from="/bias" to="/vins_estimator/estimated_bias" />
+    <param name="log_filename" value="$(arg log_folder)/vins_bias_$(arg log_filename).csv" />
+</node>
+<!-- Animate the model in rviz. /odom needs to be remapped to the right one (ground truth or the estimate) -->
+<node name="odom_publisher" type="publisher.py" pkg="odom_publisher">
+  <remap from="/odom" to="/vins_estimator/odometry" /> <!-- /sensors/applanix/gps_odom /vins_estimator/odometry -->
+</node>
+
+</launch>

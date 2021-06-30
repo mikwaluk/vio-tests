@@ -77,10 +77,9 @@ class OdomLogger:
         x = msg.pose.pose.position.x
         y = msg.pose.pose.position.y
         z = msg.pose.pose.position.z
-
-        r, p, y = euler_from_quaternion(x=msg.pose.pose.orientation.x, y=msg.pose.pose.orientation.y,
-                                        z=msg.pose.pose.orientation.z, w=msg.pose.pose.orientation.w)
-        self._csv_writer.writerow([msg.header.stamp.to_sec(), x, y, z, vx, vy, vz, r, p, y])
+        r, p, yaw = euler_from_quaternion(x=msg.pose.pose.orientation.x, y=msg.pose.pose.orientation.y,
+                                          z=msg.pose.pose.orientation.z, w=msg.pose.pose.orientation.w)
+        self._csv_writer.writerow([msg.header.stamp.to_sec(), x, y, z, vx, vy, vz, r, p, yaw])
         # rospy.loginfo(f'\n{dx_odom=}\n{dy_odom=}\n{dz_odom=}\n{dt=}\n'
         #              f'{vx_odom=}\n{vy_odom=}\n{vz_odom=}')
 
