@@ -31,9 +31,9 @@ std_z = imu_no_gravity.angular_velocity_z.std(ddof=0)
 print(f'{std_x=}, {std_y=}, {std_z=}')
 
 ground_truth = pd.read_csv('../ground_truth_gps.csv')
-odometry = pd.read_csv('vins_odom_normal_speed_test.csv')
-features = pd.read_csv('features_normal_speed_test.csv')
-bias = pd.read_csv('vins_bias_normal_speed_test.csv')
+odometry = pd.read_csv('vins_odom_.csv')
+features = pd.read_csv('features_.csv')
+bias = pd.read_csv('vins_bias_.csv')
 
 
 entire_trajectory = True
@@ -45,7 +45,7 @@ if not entire_trajectory:
 ground_truth['timestamp'] = ground_truth['timestamp'].astype(float)
 odometry['timestamp'] = odometry['timestamp'].astype(float)
 
-save_all = False
+save_all = True
 features_z_position_x_velocity = False
 show_bias = False
 xy_trajectory_from_above = False
@@ -135,7 +135,7 @@ if show_bias or save_all:
 if features_z_position_x_velocity or save_all:
     fig, ax = plt.subplots()
     ax.scatter(features['timestamp'],
-               features['features_0_4'], label='Matched features in sliding window', linestyle='--', color='b',
+               features['tracked_features'], label='Matched features in sliding window', linestyle='--', color='b',
                s=point_size, rasterized=True)
     ax.scatter(odometry['timestamp'],
                odometry['z'], label='Estimated Z position', linestyle='--', color='r', s=point_size, rasterized=True)
@@ -263,7 +263,7 @@ if plot_imu:
     ax[1].set_xlabel('t [s]')
     ax[1].set_ylabel('m/s^2')
     fig.savefig('linear_accelerations_comparison.svg', format='svg', dpi=600)
-    plt.show()
+    # plt.show()
     plt.clf()
 
     fig, ax = plt.subplots(nrows=2)
@@ -290,5 +290,5 @@ if plot_imu:
     ax[1].set_xlabel('t [s]')
     ax[1].set_ylabel('rad/s')
     fig.savefig('angular_velocity_comparison.svg', format='svg', dpi=600)
-    plt.show()
+    # plt.show()
     plt.clf()

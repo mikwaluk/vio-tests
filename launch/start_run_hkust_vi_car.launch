@@ -1,6 +1,6 @@
 <launch>
   <arg name="log_data" default="false"/>
-  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/hkust_small_rc_car/test_run_3" />
+  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/hkust_small_rc_car/test_run_harris" />
   <arg name="log_filename" default="" />
 
   <arg name="rosbag_play_rate" default="1.0" />

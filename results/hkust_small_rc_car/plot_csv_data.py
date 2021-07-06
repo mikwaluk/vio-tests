@@ -17,7 +17,7 @@ features = pd.read_csv('features_.csv')
 bias = pd.read_csv('vins_bias_.csv')
 ground_truth_vel = pd.read_csv('../vins_odom_pseudo_ground_truth.csv')
 ground_truth_pos['timestamp'] = ground_truth_pos['timestamp'].astype(float) / 1e9
-save_all = False
+save_all = True
 features_z_position_x_velocity = False
 show_bias = False
 xy_trajectory_from_above = False
@@ -26,7 +26,7 @@ compare_velocities = False
 compare_positions = False
 z_vel_z_pos = False
 rpy = False
-plot_imu = True
+plot_imu = False
 
 if rpy or save_all:
     fig, ax = plt.subplots()
@@ -107,7 +107,7 @@ if show_bias or save_all:
 if features_z_position_x_velocity or save_all:
     fig, ax = plt.subplots()
     ax.scatter(features['timestamp'],
-               features['features_0_4'], label='Matched features in sliding window', linestyle='--', color='b',
+               features['tracked_features'], label='Matched features in sliding window', linestyle='--', color='b',
                s=point_size, rasterized=True)
     ax.scatter(odometry['timestamp'],
                odometry['z'], label='Estimated Z position', linestyle='--', color='r', s=point_size, rasterized=True)

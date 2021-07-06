@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot name="kaist_car" 
+	xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	
+	<xacro:macro name="fixed_part" params="name parent linktype rpy xyz">
+		<link name="${name}">
+		</link>
+		<joint name="${parent}_to_${name}" type="${linktype}">
+  			<parent link="${parent}"/>
+			<child link="${name}"/>
+			<origin rpy="${rpy}" xyz="${xyz}" />
+		</joint>
+	</xacro:macro>
+	<!-- Vehicle coordinate system origin (center of rear axle projected on ground) -->
+
+	<link name="world" />
+	<xacro:fixed_part name="odom" parent="world" linktype="fixed" rpy="0 0 0" xyz="0 0 0" />
+	<xacro:fixed_part name="base_link" parent="odom" linktype="fixed" rpy="0 0 0" xyz="0 0 0" />
+	<xacro:fixed_part name="imu0" parent="base_link" linktype="fixed" rpy="0 0.0 0" xyz="-0.07 0 1.7" />
+	<xacro:fixed_part name="cam0" parent="base_link" linktype="fixed" rpy="-1.58612032 0.000230383461 -1.577601366" xyz="1.64239 0.247401 1.58411" />
+	
+</robot>

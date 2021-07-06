@@ -1,9 +1,9 @@
 <launch>
   <arg name="log_data" default="false"/>
-  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/tune_feature_tracker_2" />
-  <arg name="log_filename" default="normal_speed_test" />
+  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/fu_vehicle/test_harris" />
+  <arg name="log_filename" default="" />
 
-  <arg name="rosbag_play_rate" default="1.0" />
+  <arg name="rosbag_play_rate" default="0.5" />
 
   <arg name="camera_frame_name" value="broadrreachcam_rear" /> <!-- svo: cam_pos, fu: broadrreachcam_rear, vins: camera -->
   <!-- Relay the CameraInfo topic also to the feature tracker image -->
@@ -56,8 +56,8 @@
 
   <!-- Log to csv -->
   <group if="$(eval arg('log_data'))">
-    <node name="features_logger" type="evaluator.py" pkg="feature_tracker_evaluation">
-        <remap from="/feature_cloud" to="/feature_tracker/feature" />
+    <node name="vins_features_logger" type="tracked_features_logger.py" pkg="data_logging">
+        <remap from="/tracked_features" to="/vins_estimator/tracked_features" />
         <param name="log_filename" value="$(arg log_folder)/features_$(arg log_filename).csv" />
     </node>
     <node name="vins_odom_logger" type="odom_logger.py" pkg="data_logging">

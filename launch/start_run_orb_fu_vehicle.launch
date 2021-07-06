@@ -1,0 +1,17 @@
+<launch>
+  <node pkg="imu_add_gravity" type="publisher.py" name="add_gravity" >
+    <remap from="/in" to="/sensors/applanix/imu_data" />
+    <remap from="/out" to="/imu" />
+  </node>
+  <node name="image_decompresser" type="republish" pkg="image_transport" output="screen"
+        args="compressed in:=/sensors/broadrreachcam_front/image_compressed raw out:=/camera/image_raw" />
+    <node name="rviz" pkg="rviz" type="rviz" args="" />
+  <arg name="model" default="$(find odom_publisher)/../../urdf/kaist_car.urdf"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+
+</launch>

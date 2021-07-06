@@ -22,3 +22,33 @@
 [submodule "src/rpg_vikit"]
 	path = src/rpg_vikit
 	url = git@github.com:uzh-rpg/rpg_vikit.git
+[submodule "src/kitti_to_rosbag"]
+	path = src/kitti_to_rosbag
+	url = git@github.com:ethz-asl/kitti_to_rosbag.git
+[submodule "src/catkin_simple"]
+	path = src/catkin_simple
+	url = git@github.com:catkin/catkin_simple.git
+[submodule "src/gflags_catkin"]
+	path = src/gflags_catkin
+	url = git@github.com:ethz-asl/gflags_catkin.git
+[submodule "src/minkindr"]
+	path = src/minkindr
+	url = git@github.com:ethz-asl/minkindr.git
+[submodule "src/eigen_catkin"]
+	path = src/eigen_catkin
+	url = git@github.com:ethz-asl/eigen_catkin.git
+[submodule "src/glog_catkin"]
+	path = src/glog_catkin
+	url = git@github.com:ethz-asl/glog_catkin.git
+[submodule "src/eigen_checks"]
+	path = src/eigen_checks
+	url = git@github.com:ethz-asl/eigen_checks.git
+[submodule "src/minkindr_ros"]
+	path = src/minkindr_ros
+	url = git@github.com:ethz-asl/minkindr_ros.git
+[submodule "src/file_player"]
+	path = src/file_player
+	url = git@github.com:irapkaist/file_player.git
+[submodule "src/data_viewer"]
+	path = src/data_viewer
+	url = git@github.com:irapkaist/data_viewer.git
