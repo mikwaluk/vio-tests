@@ -52,3 +52,6 @@
 [submodule "src/data_viewer"]
 	path = src/data_viewer
 	url = git@github.com:irapkaist/data_viewer.git
+[submodule "src/msckf_mono"]
+	path = src/msckf_mono
+	url = git@github.com:daniilidis-group/msckf_mono.git

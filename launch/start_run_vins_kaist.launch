@@ -1,6 +1,6 @@
 <launch>
   <arg name="log_data" default="false"/>
-  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/kaist_urban/test1" />
+  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/kaist_urban/urban-39/test1" />
 
   <!-- Launch rviz and tf frames -->
   <arg name="rvizconfig" default="$(find odom_publisher)/../../rviz/kaist_dataset.rviz" />
