@@ -1,18 +1,16 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 0
+    Help Height: 70
     Name: Displays
     Property Tree Widget:
       Expanded:
         - /Global Options1
         - /Grid1
         - /TF1
-        - /Camera1
-        - /Camera1/Visibility1
-        - /Ground truth wheels (green)1
-        - /Ground truth GPS1
+        - /Camera front view1
+        - /Camera front view1/Visibility1
       Splitter Ratio: 0.5
-    Tree Height: 585
+    Tree Height: 407
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -31,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Camera
+    SyncSource: Camera front view
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -160,6 +158,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        odom:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         pg_left:
           Alpha: 1
           Show Axes: false
@@ -245,6 +247,8 @@ Visualization Manager:
           Value: true
         lux:
           Value: true
+        odom:
+          Value: true
         pg_left:
           Value: true
         pg_right:
@@ -267,77 +271,79 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          base_link:
-            applanix:
-              {}
-            chassis:
-              broadcam_front_position:
+          odom:
+            base_link:
+              applanix:
                 {}
-              broadrreachcam_front:
-                {}
-              broadrreachcam_left:
-                {}
-              broadrreachcam_rear:
-                {}
-              broadrreachcam_right:
-                {}
-              car_front_center:
-                {}
-              car_front_left:
-                {}
-              car_front_right:
-                {}
-              car_rear_center:
-                {}
-              car_rear_left:
-                {}
-              car_rear_right:
-                {}
-              front_axle_center:
-                hella_swa_reference:
+              chassis:
+                broadcam_front_position:
                   {}
-                sms_radar:
+                broadrreachcam_front:
                   {}
-              lux:
+                broadrreachcam_left:
+                  {}
+                broadrreachcam_rear:
+                  {}
+                broadrreachcam_right:
+                  {}
+                car_front_center:
+                  {}
+                car_front_left:
+                  {}
+                car_front_right:
+                  {}
+                car_rear_center:
+                  {}
+                car_rear_left:
+                  {}
+                car_rear_right:
+                  {}
+                front_axle_center:
+                  hella_swa_reference:
+                    {}
+                  sms_radar:
+                    {}
+                lux:
+                  {}
+                rear_axle_center:
+                  {}
+              ibeo_scanner_1:
                 {}
-              rear_axle_center:
+              ibeo_scanner_2:
                 {}
-            ibeo_scanner_1:
-              {}
-            ibeo_scanner_2:
-              {}
-            ibeo_scanner_3:
-              {}
-            ibeo_scanner_4:
-              {}
-            ibeo_scanner_5:
-              {}
-            ibeo_scanner_6:
-              {}
-            pg_left:
-              {}
-            pg_right:
-              {}
-            rear_base_link:
-              {}
-            vlp16_rig:
-              {}
+              ibeo_scanner_3:
+                {}
+              ibeo_scanner_4:
+                {}
+              ibeo_scanner_5:
+                {}
+              ibeo_scanner_6:
+                {}
+              pg_left:
+                {}
+              pg_right:
+                {}
+              rear_base_link:
+                {}
+              vlp16_rig:
+                {}
       Update Interval: 0
       Value: true
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
-      Image Topic: /sensors/broadrreachcam_front/image
-      Name: Camera
+      Image Topic: /feature_tracker/feature_img
+      Name: Camera front view
       Overlay Alpha: 0.10000000149011612
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
       Value: true
       Visibility:
+        Feature cloud: true
         Grid: true
-        Ground truth GPS: true
-        Ground truth wheels (green): true
+        Ground truth GPS (yellow): false
+        Ground truth wheels (green): false
         RobotModel: true
         TF: false
         Value: true
@@ -353,10 +359,38 @@ Visualization Manager:
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /ground_truth_gps_odom_path
-      Name: Ground truth GPS
+      Name: Ground truth GPS (yellow)
       Namespaces:
         "": true
       Queue Size: 100
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud
+      Color: 0; 255; 0
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: Feature cloud
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: /feature_tracker/feature
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
   Enabled: true
   Global Options:
@@ -385,8 +419,8 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/Orbit
-      Distance: 171.93057250976562
+      Class: rviz/ThirdPersonFollower
+      Distance: 15.554559707641602
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -394,27 +428,27 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -18.265356063842773
-        Y: 9.4909029006958
-        Z: -89.88218688964844
-      Focal Shape Fixed Size: true
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.434796690940857
+      Pitch: -0.004601503722369671
       Target Frame: base_link
-      Yaw: 0.2035805583000183
+      Yaw: 3.085397958755493
     Saved: ~
 Window Geometry:
-  Camera:
+  Camera front view:
     collapsed: false
   Displays:
     collapsed: false
   Height: 1136
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000003fc000003ccfc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730200000556000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000286000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d00650072006101000002c9000001400000001600ffffff000000010000010f000003ccfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003d000003cc000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073800000044fc0100000002fb0000000800540069006d0065010000000000000738000002eb00fffffffb0000000800540069006d0065010000000000000450000000000000000000000221000003cc00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000003fc000003ccfc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730200000556000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000021a000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000002200430061006d006500720061002000660072006f006e007400200076006900650077010000025d000001ac0000001600ffffff000000010000010f000003ccfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003d000003cc000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073800000044fc0100000002fb0000000800540069006d0065010000000000000738000002eb00fffffffb0000000800540069006d0065010000000000000450000000000000000000000221000003cc00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
