@@ -1,0 +1,3 @@
+[submodule "src/vins_test"]
+	path = src/vins_test
+	url = git@github.com:mikwaluk/vins_test.git
