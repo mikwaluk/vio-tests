@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>feature_tracker_evaluation</name>
+  <version>0.0.0</version>
+  <description>Conuts common features between frames in the sliding window</description>
+  <author>Thomas Denewiler</author>
+  <maintainer email="mikolaj@peregrine.ai">Mikolaj Walukiewicz</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>rospy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf2_ros</depend>
+  <depend>visualization_msgs</depend>
+
+
+</package>
