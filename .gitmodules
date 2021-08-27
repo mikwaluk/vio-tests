@@ -1,3 +1,24 @@
 [submodule "src/vins_test"]
 	path = src/vins_test
 	url = git@github.com:mikwaluk/vins_test.git
+[submodule "src/rovio"]
+	path = src/rovio
+	url = git@github.com:ethz-asl/rovio.git
+[submodule "src/lightweight_filtering"]
+	path = src/lightweight_filtering
+	url = https://bitbucket.org/bloesch/lightweight_filtering.git
+[submodule "src/kindr"]
+	path = src/kindr
+	url = git@github.com:ANYbotics/kindr.git
+[submodule "src/rpg_svo"]
+	path = src/rpg_svo
+	url = git@github.com:uzh-rpg/rpg_svo.git
+[submodule "src/Sophus"]
+	path = src/Sophus
+	url = git@github.com:strasdat/Sophus.git
+[submodule "src/fast"]
+	path = src/fast
+	url = git@github.com:uzh-rpg/fast.git
+[submodule "src/rpg_vikit"]
+	path = src/rpg_vikit
+	url = git@github.com:uzh-rpg/rpg_vikit.git
