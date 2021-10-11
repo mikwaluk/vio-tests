@@ -1,10 +1,10 @@
 <launch>
   <arg name="log_data" default="false"/>
-  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/kaist_urban/urban-39/test1" />
+  <arg name="log_folder" default="/home/mikolaj/Projects/catkin_vins/results/kaist_urban/urban-39/test2" />
 
   <!-- Launch rviz and tf frames -->
   <arg name="rvizconfig" default="$(find odom_publisher)/../../rviz/kaist_dataset.rviz" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"  />
+  <node name="rviz_vins" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"  />
   <arg name="model" default="$(find odom_publisher)/../../urdf/kaist_car.urdf"/>
 
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
@@ -34,6 +34,4 @@
     </node>
   </group>
 
-  <!-- Start the KAIST dataset player -->
-  <include file="$(find file_player)/launch/file_player.launch" />
 </launch>
