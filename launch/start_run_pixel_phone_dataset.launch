@@ -1,0 +1,27 @@
+<launch>
+  <arg name="log_data" default="false"/>
+  <arg name="log_folder" default="/home/mikolaj/Datasets/westend_bike_1/results/vins_mono/run_2" />
+
+  <!-- Launch rviz and tf frames -->
+  <arg name="rvizconfig" default="$(find odom_publisher)/../../rviz/kaist_dataset.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"  />
+  <arg name="model" default="$(find odom_publisher)/../../urdf/kaist_car.urdf"/>
+
+
+  <!-- Log to csv -->
+  <group if="$(eval arg('log_data'))">
+    <node name="vins_features_logger" type="tracked_features_logger.py" pkg="data_logging">
+        <remap from="/tracked_features" to="/vins_estimator/tracked_features" />
+        <param name="log_filename" value="$(arg log_folder)/features.csv" />
+    </node>
+    <node name="vins_odom_logger" type="odom_logger.py" pkg="data_logging">
+        <remap from="/odom" to="/vins_estimator/odometry" />
+        <param name="log_filename" value="$(arg log_folder)/vins_odom.csv" />
+    </node>
+    <node name="vins_bias_logger" type="bias_logger.py" pkg="data_logging">
+        <remap from="/bias" to="/vins_estimator/estimated_bias" />
+        <param name="log_filename" value="$(arg log_folder)/vins_bias.csv" />
+    </node>
+  </group>
+
+</launch>
