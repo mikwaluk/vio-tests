@@ -10,9 +10,6 @@
 [submodule "src/kindr"]
 	path = src/kindr
 	url = git@github.com:ANYbotics/kindr.git
-[submodule "src/rpg_svo"]
-	path = src/rpg_svo
-	url = git@github.com:uzh-rpg/rpg_svo.git
 [submodule "src/Sophus"]
 	path = src/Sophus
 	url = git@github.com:strasdat/Sophus.git
@@ -52,6 +49,3 @@
 [submodule "src/data_viewer"]
 	path = src/data_viewer
 	url = git@github.com:irapkaist/data_viewer.git
-[submodule "src/msckf_mono"]
-	path = src/msckf_mono
-	url = git@github.com:daniilidis-group/msckf_mono.git
