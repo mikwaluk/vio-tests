@@ -46,3 +46,9 @@
 [submodule "src/irp_sen_msgs"]
 	path = src/irp_sen_msgs
 	url = https://github.com/irapkaist/irp_sen_msgs.git
+[submodule "src/rovio"]
+	path = src/rovio
+	url = git@github.com:mikwaluk/rovio.git
+[submodule "src/open_vins"]
+	path = src/open_vins
+	url = git@github.com:mikwaluk/open_vins.git
