@@ -39,7 +39,7 @@
 	url = git@github.com:ethz-asl/minkindr_ros.git
 [submodule "src/file_player"]
 	path = src/file_player
-	url = git@github.com:irapkaist/file_player.git
+	url = git@github.com:mikwaluk/file_player.git
 [submodule "src/ceres-solver"]
 	path = src/ceres-solver
 	url = git@github.com:ceres-solver/ceres-solver.git
