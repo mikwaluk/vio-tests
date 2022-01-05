@@ -1,54 +1,54 @@
 [submodule "src/vins_test"]
 	path = src/vins_test
-	url = git@github.com:mikwaluk/vins_test.git
+	url = https://github.com/mikwaluk/vins_test.git
 [submodule "src/lightweight_filtering"]
 	path = src/lightweight_filtering
 	url = https://bitbucket.org/bloesch/lightweight_filtering.git
 [submodule "src/kindr"]
 	path = src/kindr
-	url = git@github.com:ANYbotics/kindr.git
+	url = https://github.com/ANYbotics/kindr.git
 [submodule "src/Sophus"]
 	path = src/Sophus
-	url = git@github.com:strasdat/Sophus.git
+	url = https://github.com/strasdat/Sophus.git
 [submodule "src/fast"]
 	path = src/fast
-	url = git@github.com:uzh-rpg/fast.git
+	url = https://github.com/uzh-rpg/fast.git
 [submodule "src/kitti_to_rosbag"]
 	path = src/kitti_to_rosbag
-	url = git@github.com:ethz-asl/kitti_to_rosbag.git
+	url = https://github.com/ethz-asl/kitti_to_rosbag.git
 [submodule "src/catkin_simple"]
 	path = src/catkin_simple
-	url = git@github.com:catkin/catkin_simple.git
+	url = https://github.com/catkin/catkin_simple.git
 [submodule "src/gflags_catkin"]
 	path = src/gflags_catkin
-	url = git@github.com:ethz-asl/gflags_catkin.git
+	url = https://github.com/ethz-asl/gflags_catkin.git
 [submodule "src/minkindr"]
 	path = src/minkindr
-	url = git@github.com:ethz-asl/minkindr.git
+	url = https://github.com/ethz-asl/minkindr.git
 [submodule "src/eigen_catkin"]
 	path = src/eigen_catkin
-	url = git@github.com:ethz-asl/eigen_catkin.git
+	url = https://github.com/ethz-asl/eigen_catkin.git
 [submodule "src/glog_catkin"]
 	path = src/glog_catkin
-	url = git@github.com:ethz-asl/glog_catkin.git
+	url = https://github.com/ethz-asl/glog_catkin.git
 [submodule "src/eigen_checks"]
 	path = src/eigen_checks
-	url = git@github.com:ethz-asl/eigen_checks.git
+	url = https://github.com/ethz-asl/eigen_checks.git
 [submodule "src/minkindr_ros"]
 	path = src/minkindr_ros
-	url = git@github.com:ethz-asl/minkindr_ros.git
+	url = https://github.com/ethz-asl/minkindr_ros.git
 [submodule "src/file_player"]
 	path = src/file_player
-	url = git@github.com:mikwaluk/file_player.git
+	url = https://github.com/mikwaluk/file_player.git
 [submodule "src/ceres-solver"]
 	path = src/ceres-solver
-	url = git@github.com:ceres-solver/ceres-solver.git
+	url = https://github.com/ceres-solver/ceres-solver.git
 [submodule "src/irp_sen_msgs"]
 	path = src/irp_sen_msgs
 	url = https://github.com/irapkaist/irp_sen_msgs.git
 [submodule "src/rovio"]
 	path = src/rovio
-	url = git@github.com:mikwaluk/rovio.git
+	url = https://github.com/mikwaluk/rovio.git
 [submodule "src/open_vins"]
 	path = src/open_vins
-	url = git@github.com:mikwaluk/open_vins.git
+	url = https://github.com/mikwaluk/open_vins.git
